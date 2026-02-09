@@ -3,6 +3,7 @@
     import Main from "../components/Main.svelte";
     import TimeLine from "../components/TimeLine.svelte";
     import Sidebar from "../components/Sidebar.svelte";
+
 </script>
 
 <Header />
@@ -12,8 +13,19 @@
 </Main>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Pacifico&display=swap');
+
     :global(body) {
-        background-color: #676778;
-        color: white;
+        background-color: #fafafa;
+        color: rgba(38, 38, 38, 0.7);
+        font-family: "Lato", "Pacifico", sans-serif;
+        margin: 0;
+        padding: 0;
     }
+    :global(h1, h2, h3) {
+        margin: 0;
+        padding: 0;
+    }
+
 </style>
