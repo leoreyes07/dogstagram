@@ -1,21 +1,36 @@
-<div class="Stories">
-    <div class="Stories__container">
-        <div class="Stories__head">
-            <h2>Stories</h2>
-            <span>See all</span>
-        </div>
-        <div class="Stories__items">
-            <div class="Stories__item">
-                <div class="Stories__item-box">
-                    <img src="/static/images/user_01.1.2.png" alt="" />
-                </div>
-                <h2>User</h2>
-                <span>10 hours ago</span>
-            </div>
-        </div>
-    </div>
-</div>
 
+<script>
+  export let users = [];
+
+    function randomHoursAgo() {
+    const hours = Math.floor(Math.random() * 24) + 1;
+    return `${hours} hours ago`;
+  }
+</script>
+
+<div class="Stories">
+  <div class="Stories__container">
+    <div class="Stories__head">
+      <h2>Stories</h2>
+      <span>See all</span>
+    </div>
+
+    <div class="Stories__items">
+      {#each users as user}
+        <div class="Stories__item">
+          <div class="Stories__item-box">
+            <img src={user.avatar} alt={user.name} />
+          </div>
+
+          <div>
+            <h2>{user.name}</h2>
+            <span>{randomHoursAgo()}</span>
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
+</div>
 
 <style>
   .Stories {

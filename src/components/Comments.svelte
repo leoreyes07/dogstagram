@@ -1,22 +1,39 @@
-<div class="Comments">
-    <div class="Comments__content">
-        <div class="Comments__users">
-            <h3>Chris</h3>
-            <span>Hi Brady!</span>
-        </div>
-        <div class="Comments__add">
-            <form action="">
-                <input type="text"
-                class="Comments__input"
-                placeholder="Add a comment..."
-                id="text" 
-                />
-                <button type="submit">Post</button>
-            </form>
-        </div>
-    </div>
-</div>
+<script>
+  export let petName = "Brady";
 
+  const randomUsers = [
+    "Chris",
+    "Alex",
+    "Sam",
+    "Jordan",
+    "Taylor",
+    "Jamie",
+    "Morgan",
+  ];
+
+  let commentUser = randomUsers[Math.floor(Math.random() * randomUsers.length)];
+</script>
+
+<div class="Comments">
+  <div class="Comments__content">
+    <div class="Comments__users">
+      <h3>{commentUser}</h3>
+      <span>Hi {petName}!</span>
+    </div>
+
+    <div class="Comments__add">
+      <form on:submit|preventDefault>
+        <input
+          type="text"
+          class="Comments__input"
+          placeholder="Add a comment..."
+          id="text"
+        />
+        <button type="submit">Post</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <style>
   .Comments h3 {
@@ -26,24 +43,29 @@
     margin: 0;
     padding: 0;
   }
+
   .Comments span {
     font-size: 14px;
     margin: 0 0 0 0.5em;
     font-weight: normal;
     color: rgba(black, 0.9);
   }
+
   .Comments__add {
     padding: 1em 1em 1em 1em;
     border-top: 1px solid rgba(219, 219, 219, 0.8);
   }
+  
   .Comments__add form {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
+
   .Comments__content {
     padding: 0 1em 0.5em 1em;
   }
+
   .Comments__users {
     margin: 0 0 0.5em 0;
     display: flex;
@@ -59,6 +81,7 @@
     width: 100%;
     display: flex;
   }
+
   button {
     border: none;
     color: #3897f0;
@@ -66,7 +89,4 @@
     outline: none;
     cursor: pointer;
   }
- /*  label {
-    display: none;
-  } */
 </style>

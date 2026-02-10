@@ -1,13 +1,17 @@
+<script>
+    export let user;
+</script>
+
 <div class="Profile">
-    <div class="Profile__content">
-        <div class="Profile__avatar">
-            <img src="https://fastly.picsum.photos/id/91/3504/2336.jpg?hmac=tK6z7RReLgUlCuf4flDKeg57o6CUAbgklgLsGL0UowU" alt="" />
-        </div>
-        <div class="Profile__info">
-            <h2>Username</h2>
-            <span>My User</span>
-        </div>
+  <div class="Profile__content">
+    <div class="Profile__avatar">
+      <img src={user.avatar} alt={user.name} />
     </div>
+    <div class="Profile__info">
+      <h2>{user.name}</h2>
+      <span>{user.email}</span>
+    </div>
+  </div>
 </div>
 
 <style>
