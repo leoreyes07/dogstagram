@@ -32,15 +32,15 @@
   onMount(async () => {
     // Fetch posts images
     try {
-      const res = await fetch("https://dog.ceo/api/breeds/image/random/8");
-      if (!res.ok) throw new Error("API Dog CEO no disponible");
+      const res = await fetch("https://api.thedogapi.com/v1/images/search?limit=20");
+      if (!res.ok) throw new Error("API thedogapi no disponible");
       const data = await res.json();
 
-      posts = data.message.map((img, index) => ({
+      posts = data.map((item, index) => ({
         id: index,
-        user: userNames[index].name,
-        location: userNames[index].location,
-        image: img,
+        user: userNames[index % userNames.length].name,
+        location: userNames[index % userNames.length].location,
+        image: item.url,
         description: "¡Hola a todos! 🐶",
       }));
     } catch (e) {
