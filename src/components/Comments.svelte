@@ -18,42 +18,51 @@
   <div class="Comments__content">
     <div class="Comments__users">
       <h3>{commentUser}</h3>
-      <span>Hi {petName}!</span>
+      <span>¡Hola {petName}! 👋</span>
     </div>
+  </div>
 
-    <div class="Comments__add">
-      <form on:submit|preventDefault>
-        <input
-          type="text"
-          class="Comments__input"
-          placeholder="Add a comment..."
-          id="text"
-        />
-        <button type="submit">Post</button>
-      </form>
-    </div>
+  <div class="Comments__add">
+    <form on:submit|preventDefault>
+      <input
+        type="text"
+        class="Comments__input"
+        placeholder="Añade un comentario..."
+        id="text"
+      />
+      <button type="submit">Publicar</button>
+    </form>
   </div>
 </div>
 
 <style>
   .Comments h3 {
     font-size: 14px;
-    color: black;
-    font-weight: bold;
+    color: var(--text-color);
+    font-weight: 600;
     margin: 0;
     padding: 0;
   }
 
   .Comments span {
     font-size: 14px;
-    margin: 0 0 0 0.5em;
+    margin: 0 0 0 4px;
     font-weight: normal;
-    color: rgba(black, 0.9);
+    color: var(--text-color);
+  }
+
+  .Comments__content {
+    padding: 0 16px 8px 16px;
+  }
+
+  .Comments__users {
+    display: flex;
+    margin-bottom: 4px;
   }
 
   .Comments__add {
-    padding: 1em 1em 1em 1em;
-    border-top: 1px solid rgba(219, 219, 219, 0.8);
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-color);
   }
   
   .Comments__add form {
@@ -62,31 +71,34 @@
     align-items: center;
   }
 
-  .Comments__content {
-    padding: 0 1em 0.5em 1em;
-  }
-
-  .Comments__users {
-    margin: 0 0 0.5em 0;
-    display: flex;
-  }
-
   input {
-    border: solid 1px #e9e9e9;
-    border-radius: 5px;
-    color: #696969;
-    border: 1px solid transparent;
-    font-size: 12px;
+    background: transparent;
+    color: var(--text-color);
+    border: none;
+    font-size: 14px;
     outline: none;
     width: 100%;
     display: flex;
   }
 
+  input::placeholder {
+    color: var(--text-secondary);
+  }
+
   button {
+    background: transparent;
     border: none;
-    color: #3897f0;
-    font-size: 12px;
+    color: var(--link-color);
+    font-size: 14px;
+    font-weight: 600;
     outline: none;
     cursor: pointer;
+    padding: 0;
+    margin-left: 8px;
+    transition: opacity 0.2s;
+  }
+
+  button:hover {
+    opacity: 0.7;
   }
 </style>

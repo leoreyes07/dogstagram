@@ -24,80 +24,82 @@
   }
 </script>
 
-<div class="Card">
+<article class="Card">
   <div class="Card__container">
-
-    <div class="Card__header">
+    <header class="Card__header">
       <div class="Card__user">
-        <img src={image} alt={user} />
-        <h2>
-          {user}
+        <div class="Card__user-avatar-ring">
+          <img src={image} alt={user} />
+        </div>
+        <div class="Card__user-info">
+          <h2>{user}</h2>
           <span>{location}</span>
-        </h2>
+        </div>
       </div>
-
-      <div class="Card__settings">
+      <button class="icon-button Card__settings">
         <i class="fas fa-ellipsis-h"></i>
-      </div>
-    </div>
+      </button>
+    </header>
 
     <div class="Card__photo">
-      <button
-        class="image-button"
-        on:dblclick={likeFromImage}
-        aria-label="Like image"
-      >
-        <img src={image} alt={user} />
+      <button class="image-button" on:dblclick={likeFromImage} aria-label="Like image">
+        <img src={image} alt={`Post by ${user}`} loading="lazy" />
       </button>
     </div>
 
-    <div class="Card__icons">
-      <div class="Card__icons-first">
-        <button
-          class="icon-button"
-          on:click={toggleLike}
-          aria-label="Like"
-        >
+    <div class="Card__actions">
+      <div class="Card__actions-group">
+        <button class="icon-button" on:click={toggleLike} aria-label="Like">
           <i class={`fa-heart ${liked ? 'fas active__like' : 'far'}`}></i>
         </button>
-
-        <i class="fas fa-paper-plane"></i>
+        <button class="icon-button" aria-label="Comment">
+          <i class="far fa-comment"></i>
+        </button>
+        <button class="icon-button" aria-label="Share">
+          <i class="far fa-paper-plane"></i>
+        </button>
       </div>
-
-      <div class="Card__icons-second">
-        <button
-          class="icon-button"
-          on:click={toggleBookmark}
-          aria-label="Bookmark"
-        >
+      <div class="Card__actions-save">
+        <button class="icon-button" on:click={toggleBookmark} aria-label="Save">
           <i class={`fa-bookmark ${bookmarked ? 'fas active__bookmark' : 'far'}`}></i>
         </button>
       </div>
     </div>
 
-    <div class="Card__description">
+    <div class="Card__likes">
+      <span>{liked ? '1' : '0'} Me gusta</span>
+    </div>
+
+    <div class="Card__caption">
       <h3>{user}</h3>
       <span>{description}</span>
     </div>
 
-    <Comments petName={user}/>
-
+    <Comments petName={user} />
   </div>
-</div>
+</article>
 
 <style>
   .Card {
-    border: 1px solid rgba(219, 219, 219, 1);
-    border-radius: 4px;
-    background-color: white;
-    margin: 0 0 2em 0;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    margin: 0;
+    padding-bottom: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .Card {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
   }
 
   .Card__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1em;
+    padding: 12px 16px;
   }
 
   .Card__user {
@@ -105,65 +107,59 @@
     align-items: center;
   }
 
-  .Card__user img {
-    width: 32px;
-    height: 32px;
+  .Card__user-avatar-ring {
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 12px;
   }
 
-  .Card__user h2 {
-    margin: 0 0 0 1em;
+  .Card__user img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--card-bg);
+    object-fit: cover;
+  }
+
+  .Card__user-info h2 {
+    margin: 0;
     font-size: 14px;
     font-weight: 600;
-    color: black;
+    color: var(--text-color);
   }
 
-  .Card__user h2 span {
-    display: block;
+  .Card__user-info span {
     font-size: 12px;
-    font-weight: normal;
-    color: rgba(38, 38, 38, 0.7);
+    color: var(--text-secondary);
+  }
+
+  .Card__settings i {
+    color: var(--text-color);
+    font-size: 16px;
   }
 
   .Card__photo img {
     width: 100%;
     height: auto;
+    max-height: 585px; /* Aspect ratio control roughly */
+    object-fit: cover;
     display: block;
   }
 
-  .Card__icons {
-    padding: 1em;
+  .Card__actions {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    padding: 8px 16px;
   }
 
-  .Card__icons i {
-    font-size: 20px;
-    cursor: pointer;
-  }
-
-  .Card__description {
-    padding: 0 1em 1em;
-  }
-
-  .Card__description h3 {
-    font-size: 14px;
-    font-weight: bold;
-    color: black;
-  }
-
-  .Card__description span {
-    font-size: 14px;
-  }
-
-  .active__like {
-    color: #bc1888;
-    animation: bounce linear 0.8s;
-  }
-
-  .active__bookmark {
-    color: #f09433;
+  .Card__actions-group {
+    display: flex;
+    gap: 16px;
   }
 
   .icon-button {
@@ -171,6 +167,49 @@
     border: none;
     padding: 0;
     cursor: pointer;
+    color: var(--text-color);
+  }
+  
+  .icon-button i {
+    font-size: 24px;
+    transition: transform 0.1s ease;
+  }
+
+  .icon-button:active i {
+    transform: scale(0.9);
+  }
+
+  .active__like {
+    color: #ff3040;
+    animation: bounce linear 0.3s;
+  }
+
+  .active__bookmark {
+    color: var(--text-color);
+  }
+
+  .Card__likes {
+    padding: 0 16px;
+    margin-bottom: 8px;
+  }
+
+  .Card__likes span {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-color);
+  }
+
+  .Card__caption {
+    padding: 0 16px;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .Card__caption h3 {
+    display: inline;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-right: 4px;
   }
 
   .image-button {
@@ -181,26 +220,8 @@
   }
 
   @keyframes bounce {
-    0% {
-      transform: translate(0px, 0px);
-    }
-    15% {
-      transform: translate(0px, -25px);
-    }
-    30% {
-      transform: translate(0px, 0px);
-    }
-    45% {
-      transform: translate(0px, -15px);
-    }
-    60% {
-      transform: translate(0px, 0px);
-    }
-    75% {
-      transform: translate(0px, -5px);
-    }
-    100% {
-      transform: translate(0px, 0px);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
   }
 </style>

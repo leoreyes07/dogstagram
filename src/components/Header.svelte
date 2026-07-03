@@ -7,10 +7,10 @@
             <div class="Header__nav">
                 <ul>
                     <li>
-                        <i class="fa-thin fa-heart"></i>
+                        <i class="far fa-heart"></i>
                     </li>
                     <li>
-                        <i class="fa-thin fa-user-alt"></i>
+                        <i class="far fa-paper-plane"></i>
                     </li>
                 </ul>
             </div>
@@ -18,36 +18,49 @@
     </div>
 </div>
 
-
 <style>
   .Header {
-    background-color: white;
+    background-color: var(--nav-bg);
     position: fixed;
+    top: 0;
     width: 100%;
+    z-index: 100;
+    display: none; /* Oculto por defecto en desktop */
   }
+
+  @media (max-width: 768px) {
+    .Header {
+      display: block;
+    }
+  }
+
   .Header__container {
-    grid-template-columns: minmax(auto, 936px);
-    display: grid;
-    justify-content: center;
-    background-color: white;
-    border-bottom: 1px solid rgba(38, 38, 38, 0.4);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
   }
   .Header__content {
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5em;
+    padding: 0 1em;
+    height: 60px;
   }
   .Header ul {
     list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
   }
   .Header li {
-    display: inline-block;
-    margin: 0 0 0 1em;
+    margin-left: 1.5em;
   }
   .Header i {
-    font-size: 16px;
-    color: rgba(38, 38, 38, 0.7);
+    font-size: 24px;
+    color: var(--text-color);
     cursor: pointer;
   }
 
@@ -55,24 +68,8 @@
     padding: 0;
     margin: 0;
     font-size: 28px;
-    color: black;
+    color: var(--text-color);
     font-family: "Pacifico", cursive;
     cursor: pointer;
-    position: relative;
-    background: #fff;
-    mix-blend-mode: multiply;
-    display: inline-block;
-  }
-
-  h1:before {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top left, #f09433, #bc1888);
-    mix-blend-mode: screen;
-    position: absolute;
-    top: 0;
-    left: 0;
   }
 </style>

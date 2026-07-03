@@ -7,15 +7,33 @@
 
 <style>
   .Main {
-    display: grid;
-    grid-template-columns: minmax(auto, 936px);
+    display: flex;
     justify-content: center;
-    background-color: #fafafa;
+    padding-top: 2em;
+    width: 100%;
   }
+  
   .Main-container {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-    grid-gap: 2em;
-    padding: 2em 0;
+    display: flex;
+    max-width: 820px;
+    width: 100%;
+    justify-content: center;
+    gap: 32px;
+  }
+
+  @media (max-width: 1000px) {
+    .Main-container {
+      max-width: 630px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .Main {
+      padding-top: 60px; /* Space for mobile header */
+    }
+    .Main-container {
+      max-width: 100%;
+      padding: 0;
+    }
   }
 </style>

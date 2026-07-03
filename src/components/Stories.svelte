@@ -1,92 +1,81 @@
-
 <script>
   export let users = [];
-
-    function randomHoursAgo() {
-    const hours = Math.floor(Math.random() * 24) + 1;
-    return `${hours} hours ago`;
-  }
 </script>
 
 <div class="Stories">
   <div class="Stories__container">
-    <div class="Stories__head">
-      <h2>Stories</h2>
-      <span>See all</span>
-    </div>
-
-    <div class="Stories__items">
-      {#each users as user}
-        <div class="Stories__item">
-          <div class="Stories__item-box">
-            <img src={user.avatar} alt={user.name} />
-          </div>
-
-          <div>
-            <h2>{user.name}</h2>
-            <span>{randomHoursAgo()}</span>
-          </div>
+    {#each users as user}
+      <div class="Stories__item">
+        <div class="Stories__item-box">
+          <img src={user.avatar} alt={user.name} />
         </div>
-      {/each}
-    </div>
+        <h2>{user.name.split(' ')[0]}</h2>
+      </div>
+    {/each}
   </div>
 </div>
 
 <style>
   .Stories {
-    border: 1px solid rgba(219, 219, 219, 1);
-    border-radius: 4px;
-    margin: 1em 0;
-    padding: 0.5em 1em;
-    background-color: white;
+    border: none;
+    margin-bottom: 24px;
+    background-color: var(--bg-color); /* Instagram en mobile y nuevo desktop no suele tener card blanca para stories */
   }
-  .Stories__item img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+
+  .Stories__container {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 16px 0;
+    scrollbar-width: none; /* Firefox */
   }
+
+  .Stories__container::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
   .Stories__item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin: 0 0 0.5em 0;
+    width: 66px;
+    flex-shrink: 0;
   }
-  .Stories__item h2 {
-    font-size: 14px;
-    color: black;
-    margin: 0 0 0 0.5em;
-  }
-  .Stories__item h2 span {
-    display: block;
-    font-size: 9px;
-    text-transform: uppercase;
-    color: gray;
-  }
-  .Stories__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5em 0 0 0;
-  }
-  .Stories__head h2 {
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .Stories__head span {
-    font-size: 12px;
-    font-weight: normal;
-    color: black;
-  }
-  .Stories__items {
-    margin: 0.5em 0 0.5em 0;
-  }
+
   .Stories__item-box {
-    width: 32px;
-    height: 32px;
-    border: double 2px transparent;
-    border-radius: 100%;
-    background-image: linear-gradient(#fff, #fff),
-      radial-gradient(circle at top left, #f09433, #bc1888);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px; /* Espacio para el borde de gradiente */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .Stories__item-box:active {
+    transform: scale(0.95);
+  }
+
+  .Stories__item img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-color);
+    background-color: var(--bg-color);
+    object-fit: cover;
+  }
+
+  .Stories__item h2 {
+    font-size: 12px;
+    color: var(--text-color);
+    margin: 8px 0 0 0;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
 </style>
