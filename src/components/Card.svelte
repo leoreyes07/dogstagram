@@ -2,6 +2,7 @@
   import Comments from "./Comments.svelte";
 
   export let user;
+  export let avatar;
   export let location;
   export let image;
   export let description;
@@ -29,7 +30,7 @@
     <header class="Card__header">
       <div class="Card__user">
         <div class="Card__user-avatar-ring">
-          <img src={image} alt={user} />
+          <img src={avatar} alt={user} />
         </div>
         <div class="Card__user-info">
           <h2>{user}</h2>

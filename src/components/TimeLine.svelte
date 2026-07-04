@@ -3,82 +3,72 @@
   import Stories from "./Stories.svelte";
   import { onMount } from "svelte";
 
-  const userNames = [
-    { name: "Elmo", location: "Austin, Texas" },
-    { name: "Brady", location: "New York, USA" },
-    { name: "Rocky", location: "Los Angeles, CA" },
-    { name: "Max", location: "Chicago, IL" },
-    { name: "Luna", location: "Veracruz, NI" },
-    { name: "Bela", location: "Tipitapa, NI" },
-    { name: "Charlie", location: "Denver, CO" },
-    { name: "Milo", location: "Seattle, WA" },
-    { name: "Daisy", location: "Portland, OR" },
-    { name: "Toby", location: "Phoenix, AZ" },
-    { name: "Nala", location: "Orlando, FL" },
-    { name: "Oscar", location: "Boston, MA" },
-    { name: "Coco", location: "San Jose, CA" },
-    { name: "Simba", location: "Atlanta, GA" },
-    { name: "Leo", location: "Dallas, TX" },
-    { name: "Lucy", location: "Raleigh, NC" },
-    { name: "Buddy", location: "Kansas City, MO" },
-    { name: "Chloe", location: "Santa Monica, CA" },
-    { name: "Zeus", location: "Las Vegas, NV" },
-    { name: "Penny", location: "Madison, WI" },
+  // Locations para los posts
+  const locations = [
+    "Austin, Texas", "New York, USA", "Los Angeles, CA", "Chicago, IL",
+    "Veracruz, MX", "Miami, FL", "Denver, CO", "Seattle, WA",
+    "Portland, OR", "Phoenix, AZ", "Orlando, FL", "Boston, MA",
+    "San Jose, CA", "Atlanta, GA", "Dallas, TX", "Raleigh, NC",
+    "Kansas City, MO", "Santa Monica, CA", "Las Vegas, NV", "Madison, WI",
   ];
 
   let posts = [];
   let users = [];
 
   onMount(async () => {
-    // Fetch posts images
-    try {
-      const res = await fetch("https://api.thedogapi.com/v1/images/search?limit=20");
-      if (!res.ok) throw new Error("API thedogapi no disponible");
-      const data = await res.json();
+    // Fetch simultáneo: imágenes de perros + usuarios con género de RandomUser API
+    const [dogResult, personResult] = await Promise.allSettled([
+      fetch("https://api.thedogapi.com/v1/images/search?limit=20").then(r => {
+        if (!r.ok) throw new Error("Dog API no disponible");
+        return r.json();
+      }),
+      fetch("https://randomuser.me/api/?results=20&nat=es,mx,ar").then(r => {
+        if (!r.ok) throw new Error("RandomUser API no disponible");
+        return r.json();
+      }),
+    ]);
 
-      posts = data.map((item, index) => ({
+    const dogImages = dogResult.status === "fulfilled"
+      ? dogResult.value
+      : Array(20).fill({ url: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500" });
+
+    const personData = personResult.status === "fulfilled"
+      ? personResult.value.results
+      : null;
+
+    posts = dogImages.map((item, index) => {
+      const person = personData?.[index];
+      const name = person
+        ? `${person.name.first} ${person.name.last}`
+        : locations[index % locations.length].split(",")[0];
+
+      return {
         id: index,
-        user: userNames[index % userNames.length].name,
-        location: userNames[index % userNames.length].location,
+        user: name,
+        location: person
+          ? `${person.location.city}, ${person.location.country}`
+          : locations[index % locations.length],
+        // avatar = foto de persona (genero correcto), image = foto del perro (post)
+        avatar: person?.picture?.large ?? `https://i.pravatar.cc/150?u=${index}`,
         image: item.url,
         description: "¡Hola a todos! 🐶",
-      }));
-    } catch (e) {
-      console.error('Error fetching dog images:', e);
-      // Fallback data
-      posts = userNames.map((u, index) => ({
-        id: index,
-        user: u.name,
-        location: u.location,
-        image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60", 
-        description: "¡Falló la API pero acá sigo! 🐶",
-      }));
-    }
+      };
+    });
 
-    // Fetch users for stories
+    // Stories: también usan RandomUser para tener avatares de personas reales
     try {
-      const uRes = await fetch('https://api.escuelajs.co/api/v1/users');
-      if (!uRes.ok) throw new Error("API Escuela JS no disponible");
-      const apiUsers = await uRes.json();
-      
-      const coolNames = [
-        "Valentina", "Mateo", "Camila", "Sebastián", "Martín", 
-        "Valeria", "Lucas", "Emma", "Andrés", "Isabella", 
-        "Joaquín", "Mía", "Santiago", "Lucía", "Tomás"
-      ];
-      
-      // Override API names with our cool names to avoid "Admin", "John", etc.
-      users = apiUsers.map((u, i) => ({
-        ...u,
-        name: coolNames[i % coolNames.length]
+      const uRes = await fetch("https://randomuser.me/api/?results=15&nat=es,mx,ar,co");
+      if (!uRes.ok) throw new Error("RandomUser stories no disponible");
+      const { results } = await uRes.json();
+      users = results.map(u => ({
+        name: u.name.first,
+        avatar: u.picture.medium,
       }));
-      
     } catch (e) {
-      console.error('Error fetching users for stories:', e);
-      // Fallback data for stories
-      users = userNames.map((u, i) => ({
-        name: u.name,
-        avatar: `https://i.pravatar.cc/150?u=${i}`
+      console.error("Error fetching stories users:", e);
+      users = locations.slice(0, 15).map((loc, i) => ({
+        name: loc.split(",")[0],
+        avatar: `https://i.pravatar.cc/150?u=story${i}`,
       }));
     }
   });

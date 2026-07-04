@@ -8,31 +8,27 @@
 
   onMount(async () => {
     try {
-      const res = await fetch('https://api.escuelajs.co/api/v1/users');
-      if (!res.ok) throw new Error("API fallando");
-      const apiUsers = await res.json();
-      
-      const coolNames = [
-        "Julieta Ruiz", "Emilio Silva", "Renata Gómez", "Nicolás Paz", 
-        "Victoria Rojas", "Joaquín Vega", "Camila Ortiz", "Mateo Cruz"
-      ];
+      const res = await fetch('https://randomuser.me/api/?results=8&nat=es,mx,ar,co');
+      if (!res.ok) throw new Error("RandomUser API fallando");
+      const { results } = await res.json();
 
-      users = apiUsers.map((u, i) => ({
-        ...u,
-        name: coolNames[i % coolNames.length]
+      users = results.map(u => ({
+        name: `${u.name.first} ${u.name.last}`,
+        avatar: u.picture.medium,
+        gender: u.gender,
       }));
     } catch (error) {
       console.error('Error loading users', error);
-      // Fallback
+      // Fallback con nombres gendered correctamente
       users = [
-        { name: "Juan Pérez", avatar: "https://i.pravatar.cc/150?img=1" },
-        { name: "María Gómez", avatar: "https://i.pravatar.cc/150?img=2" },
-        { name: "Carlos López", avatar: "https://i.pravatar.cc/150?img=3" },
-        { name: "Ana Martínez", avatar: "https://i.pravatar.cc/150?img=4" },
-        { name: "Pedro Rodríguez", avatar: "https://i.pravatar.cc/150?img=5" },
-        { name: "Sofía Fernández", avatar: "https://i.pravatar.cc/150?img=6" },
-        { name: "Diego Ramírez", avatar: "https://i.pravatar.cc/150?img=7" },
-        { name: "Valentina Ruiz", avatar: "https://i.pravatar.cc/150?img=8" }
+        { name: "Juan Pérez", avatar: "https://i.pravatar.cc/150?img=12" },
+        { name: "María Gómez", avatar: "https://i.pravatar.cc/150?img=47" },
+        { name: "Carlos López", avatar: "https://i.pravatar.cc/150?img=15" },
+        { name: "Ana Martínez", avatar: "https://i.pravatar.cc/150?img=44" },
+        { name: "Pedro Rodríguez", avatar: "https://i.pravatar.cc/150?img=8" },
+        { name: "Sofía Fernández", avatar: "https://i.pravatar.cc/150?img=38" },
+        { name: "Diego Ramírez", avatar: "https://i.pravatar.cc/150?img=3" },
+        { name: "Valentina Ruiz", avatar: "https://i.pravatar.cc/150?img=56" }
       ];
     } finally {
       loading = false;

@@ -9,7 +9,7 @@
     </div>
     <div class="Profile__info">
       <h2>{user.name}</h2>
-      <span>{user.email}</span>
+      <span>{user.email ?? user.username ?? 'dogstagram'}</span>
     </div>
   </div>
 </div>
